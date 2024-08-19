@@ -5,4 +5,5 @@ from .views import CustomTokenObtainPairView
 urlpatterns = [
     path('', views.index),
     path('login/', CustomTokenObtainPairView.as_view()),
+    path('register/', views.register),
 ]

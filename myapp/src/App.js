@@ -18,6 +18,13 @@ function App() {
             .catch(error => console.error('Error fetching data:', error));
     };
 
+    const register = () => {
+        console.log(username, password)
+        axios.post(`${SERVER}register/`, { username, password })
+            .then(res => console.log(res.data))
+            .catch(error => console.error('Error fetching data:', error));
+    }
+
     const decodeJwt = (token) => {
         if (!token) return null;
         const base64Url = token.split('.')[1];
@@ -49,6 +56,8 @@ function App() {
                 // Set the decoded username and staff status in the state
                 setDecodedUsername(username);
                 setstaff(staff.toString());
+
+
             } else {
                 console.error('Failed to decode token.');
             }
@@ -56,13 +65,19 @@ function App() {
     }, [access]); // Dependency array - runs when `access` changes
 
     return (
-        <div>
+         <div>
             username: <input type="text" onChange={(e) => setusername(e.target.value)} />
             password: <input type="password" onChange={(e) => setpassword(e.target.value)} />
-            <button onClick={login}>LOGIN</button>
-            <br />
-            Welcome {decodedUsername} <br/>
-            Is user staff: {staff}
+            <button onClick={()=>login()}>LOGIN</button>
+            <button onClick={()=>register()}>REGISTER</button>
+
+            <br/>
+            {access && (
+                <>
+                    <h1>Welcome {decodedUsername} </h1><br/>
+                    Is user staff: {staff}
+                </>
+            )}
         </div>
     );
 }
